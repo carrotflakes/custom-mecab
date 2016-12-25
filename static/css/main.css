@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+html, body {
+  margin: 0;
+}
+
+body {
+  font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+}
+
+#main {
+  height: 100%;
+}
+
+#header {
+  background-color: #ececec;
+  padding: 6px;
+}
+
+#main-container {
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#word-list {
+  background-color: #fff;
+  flex: 0 0 500px;
+  padding: 6px;
+  height: 500px;
+  overflow-y: auto;
+}
+
+#sentence-list {
+  background-color: #fff;
+  flex: 1 0 300px;
+  padding: 6px;
+  overflow-y: auto;
+}
+
+.list-header {
+  color: #888;
+  font-size: 160%;
+}
+
+.word-editing {
+}
+
+.word {
+  display: flex;
+  flex-direction: row;
+  min-height: 1em;
+}
+.word:hover {
+  background-color: #eee;
+}
+
+.word-surface {
+  flex: 1 0 100px;
+}
+
+.word-feature {
+  flex: 1 0 100px;
+}
+
+.word-cost {
+  flex: 0 0 50px;
+}
+
+.sentence {
+  min-height: 1em;
+}
+
+.sentence:hover {
+  background-color: #eee;
+}

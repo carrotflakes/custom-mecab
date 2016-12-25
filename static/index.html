@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>custom mecab</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css">
+</head>
+<body>
+  <div id="main">
+		<div id="header">
+			<input type="text" v-model="fileName" placeholder="辞書名" />
+			<button @click="load" v-bind:disabled="!fileNameIsValid">ロード</button>
+			<button @click="save" v-bind:disabled="!fileNameIsValid">セーブ</button>
+			<button @click="parse" v-bind:disabled="!fileNameIsValid || isDirty">チェック</button>
+			<a v-bind:href="'mecab-dic/' + fileName + '.dic'" target="_blank">辞書DL</a>
+			<span stlye="color: #FF9">{{ statusMessage }}</span>
+		</div>
+		<div id="main-container">
+			<div id="word-list">
+				<div class="list-header">単語</div>
+				<div v-for="(word, wordIndex) in words">
+					<div v-if="wordIndex === currentWordIndex"
+							 class="word-editing">
+						<input type="text" v-model="word.surface" />
+						<input type="text" v-model="word.feature" autocomplete="on" list="featureTable" />
+						<input type="number" v-model="word.cost" />
+						<a href="#" @click.prevent="removeWord">消去</a>
+						<a href="#" @click.stop="fixWord">OK</a>
+					</div>
+					<div v-else
+							 class="word"
+							 @click="currentWordIndex = wordIndex">
+						<div class="word-surface">{{ word.surface }}</div>
+						<div class="word-feature">{{ word.feature }}</div>
+						<div class="word-cost">{{ word.cost }}</div>
+					</div>
+				</div>
+				<div>
+					<button @click="addWord">追加</button>
+				</div>
+				<datalist id="featureTable">
+					<option v-for="feature in features" v-bind:value="feature" />
+				</datalist>
+			</div>
+			<div id="sentence-list">
+				<div class="list-header">文</div>
+				<div v-for="(sentence, sentenceIndex) in sentences">
+					<div v-if="sentenceIndex === currentSentenceIndex"
+							 class="sentence">
+						<input class="sentence-form" type="text"
+									 v-model="sentences[sentenceIndex]"
+									 size="40" />
+						<a href="#" @click.prevent="removeSentence">消去</a>
+						<a href="#" @click.stop="fixSentence">OK</a>
+					</div>
+					<div v-else
+							 class="sentence"
+							 @click="currentSentenceIndex = sentenceIndex">
+						{{ (sentence in tokensMap) ? tokensMap[sentence].join(' / ') : sentence }}
+					</div>
+				</div>
+				<div>
+					<button @click="addSentence">追加</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

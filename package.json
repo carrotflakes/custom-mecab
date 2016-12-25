@@ -1,0 +1,24 @@
+{
+  "name": "custom-mecab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "`npm bin`/webpack",
+    "watch:webpack": "`npm bin`/webpack --watch",
+    "watch": "npm run watch:webpack",
+    "start": "npm run build && npm run watch",
+    "clackup": "npm run build && APP_ENV=development clackup --server :hunchentoot --port 8880 app.lisp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "vue": "^2.1.6"
+  },
+  "devDependencies": {
+    "webpack": "^1.14.0"
+  }
+}

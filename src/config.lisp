@@ -11,6 +11,7 @@
            :*dict-directory*
            :*sentence-directory*
            :*mecab-dic-directory*
+           :*ipadic-src-path*
            :*ipadic-path*
            :*mecab-dict-index-path*
            :appenv
@@ -28,6 +29,7 @@
 (defparameter *sentence-directory* (merge-pathnames #P"sentence/" *application-root*))
 (defparameter *mecab-dic-directory* (merge-pathnames #P"mecab-dic/" *application-root*))
 
+(defparameter *ipadic-src-path* #P"/usr/local/lib/mecab/dic/ipadic")
 (defparameter *ipadic-path* #P"/usr/local/lib/mecab/dic/ipadic")
 (defparameter *mecab-dict-index-path* #P"/usr/local/Cellar/mecab/0.996/libexec/mecab/mecab-dict-index")
 

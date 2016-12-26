@@ -31,7 +31,7 @@
 
     (with-output-to-string (output)
       (sb-ext:run-program *mecab-dict-index-path*
-                          (list "-d" (namestring *ipadic-path*)
+                          (list "-d" (namestring *ipadic-src-path*)
                                 "-u" (namestring user-dic-path)
                                 "-f" "utf-8"
                                 "-t" "utf-8"

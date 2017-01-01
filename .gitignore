@@ -6,3 +6,7 @@
 *.x86f
 *~
 .#*
+dict/
+mecab-dic/
+log/
+sentence/

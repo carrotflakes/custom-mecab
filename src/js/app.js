@@ -58,11 +58,12 @@ var app = new Vue({
         if (file.name.endsWith('.csv')) {
           csv.parse(reader.result, (err, data) => {
             if (!err) {
-              this.sentences.push.apply(this.sentences, data.map(row => row[0]));
+              this.sentences.push.apply(this.sentences,
+                                        data.map(row => row[0].split('\n').join(' ')).filter(x => 0 < x.trim().length));
             }
           });
         } else {
-          this.sentences.push.apply(this.sentences, reader.result.split('\n').filter(x => 0 < x.length));
+          this.sentences.push.apply(this.sentences, reader.result.split('\n').filter(x => 0 < x.trim().length));
         }
       };
     },
@@ -108,7 +109,9 @@ var app = new Vue({
     parse() {
       axios.get('/dict/' + this.fileName + '/check')
            .then((response) => {
-             this.tokensMap = response.data || {};
+             this.tokensMap = {};
+             for (var i = 0; i < response.data.length; i += 2)
+               this.tokensMap[response.data[i]] = response.data[i+1];
              this.statusMessage = '';
            })
            .catch((error) => {

@@ -61,6 +61,10 @@
 				</div>
 				<div>
 					<button @click="addSentence">追加</button>
+					<label class="button" for="fileSelect">
+						ファイルから追加
+						<input id="fileSelect" type="file" @change="addSentenceFromFile" style="display: none;"/>
+					</label>
 				</div>
 			</div>
 		</div>

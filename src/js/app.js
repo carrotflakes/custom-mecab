@@ -1,5 +1,6 @@
 const axios = require('axios');
 const Vue = require('vue');
+const csv = require('csv');
 
 var app = new Vue({
   el: '#main',
@@ -49,24 +50,44 @@ var app = new Vue({
     fixSentence() {
       this.currentSentenceIndex = null;
     },
+    addSentenceFromFile(e) {
+      const reader = new FileReader();
+      const file = e.target.files[0];
+      reader.readAsText(file);
+      reader.onload = () => {
+        if (file.name.endsWith('.csv')) {
+          csv.parse(reader.result, (err, data) => {
+            if (!err) {
+              this.sentences.push.apply(this.sentences, data.map(row => row[0]));
+            }
+          });
+        } else {
+          this.sentences.push.apply(this.sentences, reader.result.split('\n').filter(x => 0 < x.length));
+        }
+      };
+    },
     load() {
       axios.get('/dict/' + this.fileName)
            .then((response) => {
              console.log(response);
-             this.words = (response.data.words || []).map(row => {
-               const cells = row.split(',');
-               return {
-                 surface: cells[0],
-                 cost: +cells[3],
-                 feature: cells.slice(4).join(',')
-               };
-             });
-             this.sentences = response.data.sentences || [];
+             if (response.data.ok) {
+               this.words = (response.data.words || []).map(row => {
+                 const cells = row.split(',');
+                 return {
+                   surface: cells[0],
+                   cost: +cells[3],
+                   feature: cells.slice(4).join(',')
+                 };
+               });
+               this.sentences = response.data.sentences || [];
 
-             this.statusMessage = this.fileName + ' をロードしました';
-             this.isDirty = false;
+               this.isDirty = false;
+             } else {
+               this.statusMessage = this.fileName + ' のロードに失敗しました';
+             }
            })
            .catch((error) => {
+             this.statusMessage = this.fileName + ' のロードに失敗しました';
              console.log(error);
            });
     },

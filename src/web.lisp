@@ -115,12 +115,13 @@
   #P"static/features.csv")
 
 (defroute ("/dict/:name" :method :GET) (&key name)
-  (handler-case
-      (cond
-        ((dict-name-valid-p name)
-         (render-json (load-dict name))))
-    (error (c)
-      nil)))
+  (or (handler-case
+          (cond
+            ((dict-name-valid-p name)
+             (render-json (list* :|ok| t (load-dict name)))))
+        (error (c)
+          nil))
+      (render-json '(:|ok| nil))))
 
 (defroute ("/dict/:name" :method :PUT) (&key name _parsed)
   (cond

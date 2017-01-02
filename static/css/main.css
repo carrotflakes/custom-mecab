@@ -113,3 +113,7 @@ input[type="bottan"]:disabled, button:disabled {
 input[type="bottan"]:active, button:active, .button:active {
   background-color: #fff;
 }
+
+[v-cloak] {
+    display: none !important;
+}

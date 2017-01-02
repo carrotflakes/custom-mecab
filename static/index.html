@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css">
 </head>
 <body>
-  <div id="main">
+  <div id="main" v-cloak>
 		<div id="header">
 			<input type="text" v-model="fileName" placeholder="辞書名" />
 			<button @click="load" v-bind:disabled="!fileNameIsValid">ロード</button>

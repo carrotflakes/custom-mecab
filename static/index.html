@@ -15,7 +15,6 @@
 			<a v-bind:href="'mecab-dic/' + fileName + '.dic'" target="_blank">辞書DL</a>
 			<span stlye="color: #FF9">{{ statusMessage }}</span>
 		</div>
-		<div id="main-container">
 			<div id="word-list">
 				<div class="list-header">単語</div>
 				<div v-for="(word, wordIndex) in words">
@@ -52,11 +51,29 @@
 									 size="40" />
 						<a href="#" @click.prevent="removeSentence">消去</a>
 						<a href="#" @click.stop="fixSentence">OK</a>
+						<div v-if="(tokensMap[sentence] instanceof Array)">
+							<div v-for="token in tokensMap[sentence]">
+								<span class="token">
+									{{ token[0] }}
+								</span>
+								<span class="feature">
+									{{ token[1] }}
+								</span>
+							</div>
+						</div>
 					</div>
 					<div v-else
 							 class="sentence"
 							 @click="currentSentenceIndex = sentenceIndex">
-						{{ (tokensMap[sentence] instanceof Array) ? tokensMap[sentence].join(' / ') : sentence }}
+						<div v-if="(tokensMap[sentence] instanceof Array)">
+							<span v-for="token in tokensMap[sentence]"
+										class="token">
+								{{ token[0] }}
+							</span>
+						</div>
+						<div v-else>
+							{{ sentence }}
+						</div>
 					</div>
 				</div>
 				<div>
@@ -66,7 +83,6 @@
 						<input id="fileSelect" type="file" @change="addSentenceFromFile" style="display: none;"/>
 					</label>
 				</div>
-			</div>
 		</div>
 	</div>
 <script src="/js/main.js"></script>

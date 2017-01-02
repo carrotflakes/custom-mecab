@@ -94,7 +94,7 @@
            for row = (read-line stream nil)
            while row
            collect row;(intern row :keyword)
-           collect (mapcar #'car (cl-mecab:parse* row)))))))
+           collect (cl-mecab:parse row))))))
 
 
 ;;

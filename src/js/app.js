@@ -68,7 +68,7 @@ var app = new Vue({
       };
     },
     load() {
-      axios.get('/dict/' + this.fileName)
+      return axios.get('/dict/' + this.fileName)
            .then((response) => {
              console.log(response);
              if (response.data.ok) {
@@ -93,7 +93,7 @@ var app = new Vue({
            });
     },
     save() {
-      axios.put('/dict/' + this.fileName, {
+      return axios.put('/dict/' + this.fileName, {
         words: this.words.map(word => `${word.surface},,,${word.cost},${word.feature}`),
         sentences: this.sentences,
       })
@@ -107,11 +107,15 @@ var app = new Vue({
            });
     },
     parse() {
-      axios.get('/dict/' + this.fileName + '/check')
+      return axios.get('/dict/' + this.fileName + '/check')
            .then((response) => {
              this.tokensMap = {};
-             for (var i = 0; i < response.data.length; i += 2)
-               this.tokensMap[response.data[i]] = response.data[i+1];
+             for (var i = 0; i < response.data.length; i += 2) {
+               this.tokensMap[response.data[i]] = response.data[i+1]
+                                                          .split('\n')
+                                                          .map(line => line.split('\t'))
+                                                          .filter(line => 2 <= line.length);
+             }
              this.statusMessage = '';
            })
            .catch((error) => {
